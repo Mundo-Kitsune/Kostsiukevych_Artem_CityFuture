@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Місто майбутнього — неон-future</title>
+  <meta name="description" content="Бачення транспорту, архітектури та екології майбутнього в неоново-футуристичному стилі." />
+  <style>
+    :root{
+      --bg:#07080b;
+      --surface:#0f1114;
+      --glass: rgba(255,255,255,0.03);
+      --accent1:#ff4db8; /* pink */
+      --accent2:#4de0ff; /* cyan */
+      --accent3:#8b5cff; /* purple */
+      --accent4:#00d1c1; /* teal */
+      --muted:#aab0c0;
+      --glass-border: rgba(255,255,255,0.06);
+      --radius:14px;
+      --card-radius:12px;
+      --transition: 300ms cubic-bezier(.2,.9,.3,1);
+      color-scheme: dark;
+    }
+
+    /* Layout */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(77,13,102,0.12), transparent 6%),
+        radial-gradient(900px 500px at 90% 80%, rgba(0,209,193,0.06), transparent 8%),
+        var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+      border-radius:18px;
+      border: 1px solid rgba(255,255,255,0.03);
+      padding:22px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(8px) saturate(120%);
+    }
+
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .logo{
+      width:56px;height:56px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent1), var(--accent2));
+      box-shadow: 0 6px 22px rgba(77,13,102,0.24), 0 0 30px rgba(77,13,102,0.12);
+      display:grid;place-items:center;
+      transform:translateZ(0);
+    }
+    .logo svg{filter: drop-shadow(0 6px 18px rgba(77,13,102,0.18));}
+
+    .title{
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:0.6px;
+    }
+    .tagline{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    /* Nav */
+    nav{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .nav-links{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:14px;
+      transition: var(--transition);
+      outline: none;
+      position:relative;
+    }
+    .nav-links a:hover{
+      color:#fff;
+      box-shadow: 0 6px 18px rgba(77,13,102,0.12), 0 0 14px rgba(77,13,102,0.06);
+      transform: translateY(-3px);
+      text-shadow: 0 4px 18px rgba(77,13,102,0.25);
+    }
+    .nav-links a:focus{
+      box-shadow: 0 0 0 3px rgba(77,13,102,0.12);
+      color:var(--accent2);
+    }
+
+    /* responsive hamburger for small screens */
+    .menu-toggle{
+      display:none;
+      background:transparent;
+      border:1px solid var(--glass-border);
+      padding:8px;
+      border-radius:10px;
+      cursor:pointer;
+      color:var(--muted);
+      backdrop-filter: blur(6px);
+    }
+    .menu-toggle:focus{outline:3px solid rgba(77,13,102,0.12)}
+
+    /* Main content */
+    main{display:block}
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:20px;
+      align-items:center;
+      margin-bottom:24px;
+    }
+    .hero-card{
+      padding:28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      border:1px solid var(--glass-border);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.5);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero h1{
+      margin:0 0 10px 0;
+      font-size:32px;
+      line-height:1.03;
+      letter-spacing:-0.6px;
+      text-shadow: 0 6px 30px rgba(139,92,255,0.06);
+    }
+    .hero p.lead{
+      color:var(--muted);
+      margin:0 0 18px 0;
+    }
+    .hero .cta{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:12px 16px;
+      border-radius:12px;
+      font-weight:600;
+      background: linear-gradient(90deg, rgba(255,77,184,0.12), rgba(77,224,255,0.08));
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--accent2);
+      cursor:pointer;
+      transition: var(--transition);
+      box-shadow: 0 6px 20px rgba(77,13,102,0.12);
+    }
+    .cta:hover{
+      transform:translateY(-4px) scale(1.02);
+      color:#fff;
+      text-shadow:0 6px 20px rgba(0,0,0,0.6);
+      box-shadow: 0 14px 40px rgba(77,13,102,0.18), 0 0 40px rgba(77,224,255,0.06);
+    }
+
+    /* Neon underline accent */
+    .accent-line{
+      height:6px;
+      width:140px;
+      margin-top:18px;
+      border-radius:6px;
+      background: linear-gradient(90deg,var(--accent1), var(--accent2));
+      filter: drop-shadow(0 8px 26px rgba(77,13,102,0.16));
+      transition: var(--transition);
+    }
+
+    /* Right column hero illustration (SVG card) */
+    .hero-visual{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      border-radius:12px;
+      padding:18px;
+      border:1px solid var(--glass-border);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:220px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+    .hero-visual svg{max-width:100%;height:auto;display:block}
+
+    /* Sections grid */
+    .sections{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+      margin-bottom:22px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
+      padding:16px;
+      border-radius:var(--card-radius);
+      border:1px solid var(--glass-border);
+      transition: var(--transition);
+      box-shadow: 0 8px 26px rgba(2,6,23,0.5);
+    }
+    .card:hover{
+      transform: translateY(-8px);
+      box-shadow: 0 26px 60px rgba(77,13,102,0.18), 0 0 40px rgba(77,224,255,0.04);
+    }
+    .card h3{margin:0 0 8px 0}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Gallery */
+    .gallery{
+      display:flex;
+      gap:12px;
+      align-items:stretch;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+    .gallery figure{
+      flex:1 1 calc(33% - 12px);
+      margin:0;
+      background:var(--glass);
+      border-radius:12px;
+      padding:10px;
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      transition: var(--transition);
+    }
+    .gallery img, .gallery svg{
+      width:100%;
+      height:140px;
+      object-fit:cover;
+      border-radius:8px;
+      display:block;
+      box-shadow: inset 0 -8px 30px rgba(0,0,0,0.35);
+    }
+    .gallery figcaption{font-size:12px;color:var(--muted)}
+
+    .gallery figure:hover{
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 18px 50px rgba(77,13,102,0.12), 0 0 24px rgba(77,224,255,0.04);
+    }
+
+    /* Interactive controls */
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .segmented{
+      display:inline-flex;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+      padding:4px;
+      border:1px solid var(--glass-border);
+    }
+    .segmented button{
+      background:transparent;
+      color:var(--muted);
+      border:0;
+      padding:10px 14px;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      transition: var(--transition);
+    }
+    .segmented button[aria-pressed="true"]{
+      color:#fff;
+      background: linear-gradient(90deg,var(--accent1), var(--accent2));
+      box-shadow: 0 8px 30px rgba(77,13,102,0.12), 0 0 30px rgba(77,224,255,0.06);
+      transform: translateY(-3px);
+    }
+
+    /* Prompt block */
+    .prompt-block{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.02);
+      padding:12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      font-size:13px;
+      color:#dbe9ff;
+      overflow:auto;
+      max-height:240px;
+    }
+
+    footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-top:16px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Accessibility focus */
+    a:focus, button:focus, input:focus, textarea:focus{
+      outline: 3px solid rgba(77,13,102,0.12);
+      outline-offset:2px;
+    }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns: 1fr;}
+      .sections{grid-template-columns: repeat(2,1fr)}
+      .gallery figure{flex:1 1 calc(50% - 12px)}
+      .menu-toggle{display:inline-flex}
+      .nav-links{display:none}
+    }
+    @media (max-width:600px){
+      .sections{grid-template-columns: 1fr}
+      .gallery{gap:10px}
+      .gallery figure{flex:1 1 100%}
+      .hero h1{font-size:26px}
+      .logo{width:48px;height:48px}
+    }
+
+    /* subtle animated background glow */
+    @keyframes floaty {
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+      100%{transform:translateY(0)}
+    }
+    .glow-orb{
+      position:absolute;
+      width:220px;height:220px;
+      right:-60px;top:-60px;
+      background: radial-gradient(circle at 30% 30%, rgba(139,92,255,0.18), transparent 30%),
+                  radial-gradient(circle at 70% 70%, rgba(77,224,255,0.12), transparent 50%);
+      filter: blur(24px);
+      z-index:0;
+      pointer-events:none;
+      border-radius:50%;
+      animation: floaty 6s ease-in-out infinite;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap" role="document">
+    <header>
+      <a class="brand" href="#top" aria-label="Перейти до початку">
+        <div class="logo" aria-hidden="true">
+          <!-- simple futuristic monogram -->
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#ff4db8"/>
+                <stop offset="1" stop-color="#4de0ff"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#g1)"></rect>
+            <path d="M7 16V8h10v8" stroke="#071221" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="title">Місто майбутнього</div>
+          <div class="tagline">Транспорт • Архітектура • Екологія</div>
+        </div>
+      </a>
+
+      <nav aria-label="Головна навігація">
+        <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Показати меню">☰</button>
+        <div class="nav-links" id="mainNav">
+          <a href="#hero">Головна</a>
+          <a href="#transport">Транспорт</a>
+          <a href="#architecture">Архітектура</a>
+          <a href="#ecology">Екологія</a>
+          <a href="#gallery">Галерея</a>
+          <a href="#how-ai">Як я використовував ШІ</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="hero" aria-labelledby="hero-title">
+        <div class="hero-card" style="position:relative;overflow:visible;">
+          <div class="glow-orb" aria-hidden="true"></div>
+          <h1 id="hero-title">Бачення міста майбутнього в неоновому світлі</h1>
+          <p class="lead">Інтегровані системи транспорту, плавна архітектура, що дихає, та екологія, яка стала частиною містобудування — короткий путівник із ідей та настроїв.</p>
+          <div>
+            <button class="cta" id="learnBtn">Дізнатися більше →</button>
+          </div>
+          <div class="accent-line" id="accentLine" aria-hidden="true"></div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <!-- simple SVG futuristic city -->
+          <svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ілюстрація футуристичного міста">
+            <defs>
+              <linearGradient id="lg" x1="0" x2="1">
+                <stop offset="0" stop-color="#ff4db8"/>
+                <stop offset="1" stop-color="#4de0ff"/>
+              </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="transparent"></rect>
+            <g transform="translate(20,30)" opacity="0.95">
+              <rect x="10" y="120" width="60" height="180" rx="6" fill="rgba(255,255,255,0.03)"/>
+              <rect x="90" y="60" width="80" height="240" rx="8" fill="rgba(255,255,255,0.02)"/>
+              <rect x="190" y="30" width="120" height="270" rx="10" fill="rgba(255,255,255,0.02)"/>
+              <rect x="330" y="80" width="70" height="220" rx="8" fill="rgba(255,255,255,0.02)"/>
+              <!-- neon outlines -->
+              <path d="M20 120 h60 v-40 h-60 z" stroke="url(#lg)" stroke-width="2" fill="none"/>
+              <path d="M100 60 h80 v-30 h-80 z" stroke="#8b5cff" stroke-width="2" fill="none"/>
+              <circle cx="520" cy="50" r="40" stroke="#4de0ff" stroke-width="2" fill="transparent" />
+              <!-- transit line -->
+              <path d="M0 300 q120 -80 240 -60 t240 -40" stroke="rgba(77,224,255,0.9)" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <circle cx="80" cy="250" r="8" fill="#ff4db8"/>
+              <circle cx="200" cy="255" r="8" fill="#4de0ff"/>
+              <circle cx="360" cy="245" r="8" fill="#8b5cff"/>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- three content sections -->
+      <section class="sections" aria-label="Основні теми">
+        <article class="card" id="transport" tabindex="0">
+          <h3>Транспорт майбутнього</h3>
+          <p>Безпілотні системи, енергетично ефективні магістралі і малі літаючі платформи змінюють логіку пересування: швидко, тихо, інтегровано з міською інфраструктурою.</p>
+        </article>
+
+        <article class="card" id="architecture" tabindex="0">
+          <h3>Архітектура майбутнього</h3>
+          <p>Конструкції, що адаптуються: фасади з регульованою прозорістю, вертикальні садки і «дихаючі» матеріали, які зменшують потребу в кондиціонуванні та опаленні.</p>
+        </article>
+
+        <article class="card" id="ecology" tabindex="0">
+          <h3>Екологія майбутнього</h3>
+          <p>Міста як екосистеми: очищення води на місці, енергія з відновлюваних джерел, інтегровані коридори для дикої природи та розумне управління відходами.</p>
+        </article>
+      </section>
+
+      <!-- Gallery -->
+      <section id="gallery" aria-labelledby="galleryTitle" style="margin-bottom:18px;">
+        <h2 id="galleryTitle" style="margin:0 0 12px 0;">Міні-галерея</h2>
+        <div class="gallery" role="list">
+          <figure role="listitem">
+            <!-- inline SVG as image -->
+            <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Концепт магістралі майбутнього">
+              <rect width="100%" height="100%" rx="8" fill="#061017"></rect>
+              <path d="M0 70 L160 70" stroke="#4de0ff" stroke-width="6" stroke-linecap="round" />
+              <circle cx="28" cy="64" r="6" fill="#ff4db8" />
+              <circle cx="74" cy="64" r="6" fill="#8b5cff" />
+              <circle cx="120" cy="64" r="6" fill="#00d1c1" />
+            </svg>
+            <figcaption>Магістраль майбутнього — концепт / автор: Studio-X</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Вертикальні сади на фасаді">
+              <rect width="100%" height="100%" rx="8" fill="#071022"></rect>
+              <rect x="18" y="18" width="40" height="64" rx="6" fill="#0f1720"/>
+              <rect x="62" y="8" width="32" height="80" rx="6" fill="#0f1720"/>
+              <rect x="100" y="28" width="46" height="56" rx="6" fill="#0f1720"/>
+              <circle cx="36" cy="36" r="6" fill="#00d1c1"/>
+              <circle cx="80" cy="40" r="6" fill="#ff4db8"/>
+              <circle cx="123" cy="54" r="6" fill="#8b5cff"/>
+            </svg>
+            <figcaption>Вертикальні сади / кредит: GreenArch</figcaption>
+          </figure>
+
+          <figure role="listitem">
+            <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Еко-станція очистки води">
+              <rect width="100%" height="100%" rx="8" fill="#071018"></rect>
+              <rect x="20" y="28" width="120" height="44" rx="6" fill="#0b1620"/>
+              <path d="M40 60 q40 -30 80 0" stroke="#4de0ff" stroke-width="3" fill="none"/>
+              <rect x="32" y="36" width="18" height="8" rx="2" fill="#ff4db8"/>
+            </svg>
+            <figcaption>Еко-станція для міста / автор: EcoLab</figcaption>
+          </figure>
+
+          <figure role="listitem" style="flex-basis:100%; display:none;" aria-hidden="true">
+            <!-- reserved slot if needed -->
+          </figure>
+        </div>
+      </section>
+
+      <!-- Interactive -->
+      <section aria-label="Інтерактивний елемент">
+        <h2 style="margin:0 0 10px 0;">Інтерактив: вид транспорту</h2>
+        <div class="controls">
+          <div class="segmented" role="tablist" aria-label="Обрати вид транспорту">
+            <button role="tab" aria-pressed="true" data-transport="maglev">Маглев</button>
+            <button role="tab" aria-pressed="false" data-transport="aerial">Аеротаксі</button>
+            <button role="tab" aria-pressed="false" data-transport="pods">Еко-поди</button>
+          </div>
+
+          <button id="colorSwap" title="Змінити акценти" aria-label="Змінити колірні акценти" class="cta" style="padding:8px 12px;font-size:14px;">Змінити стиль</button>
+        </div>
+
+        <div id="transportView" class="card" aria-live="polite">
+          <h3 id="tvTitle">Маглев — швидкісний лінійний транспорт</h3>
+          <p id="tvText">Лінії з магнітною левітацією забезпечують ефективні, енергоощадні з'єднання між районами без контакту з рейками. Низький опір руху — висока швидкість.</p>
+        </div>
+      </section>
+
+      <!-- How I used AI -->
+      <section id="how-ai" aria-labelledby="howAiTitle" style="margin-top:18px;">
+        <h2 id="howAiTitle" style="margin:0 0 10px 0;">Як я використовував ШІ</h2>
+        <p style="margin:0 0 8px 0;color:var(--muted);font-size:14px;">Нижче — промт, який було використано для генерації цієї сторінки:</p>
+
+        <div class="prompt-block" role="region" aria-label="Промт, використаний для створення сторінки">
+<pre readonly id="promptText" style="white-space:pre-wrap; margin:0; padding:0; border:none; background:transparent;">
+Напиши один повний HTML-файл (index.html) з вбудованими CSS і JavaScript без фреймворків або зовнішніх бібліотек. Усе має бути в одному файлі — стиль у тегу &lt;style&gt;, скрипт у &lt;script&gt;.
+
+Стиль сторінки — неон-future: сучасний, з неоновими підсвітками, плавними ефектами, глянцевими акцентами та чистими формами. Використай щонайменше два акцентні кольори, наприклад рожево-блакитний або бірюзово-фіолетовий. Додай hover-ефекти для меню, кнопок і карток. Сторінка має добре відображатися на телефонах і адаптуватися під різні екрани.
+Структура сторінки має бути семантичною і складатися з таких елементів:
+header — із заголовком сайту або логотипом;
+nav — навігаційне меню з посиланнями-якорями на основні секції;
+main — основна частина, де мають бути:
+1. Hero-секція з великим заголовком, коротким описом і кнопкою (наприклад, “Дізнатися більше”).
+2. Три змістові секції: “Транспорт майбутнього”, “Архітектура майбутнього”, “Екологія майбутнього”. Кожна має містити заголовок і кілька речень тексту.
+3. Міні-галерея з 3–4 зображеннями. Кожне зображення повинне мати alt і короткий підпис або кредит.
+4. Інтерактивний елемент на JavaScript без бекенду — наприклад, перемикач виду транспорту, слайдер або кнопка, що змінює колір чи тему.
+5. Секція “Як я використовував ШІ” — місце, куди буде вставлено сам промт у вигляді блоку &lt;pre&gt; або текстового поля &lt;textarea readonly&gt;, з підписом “Як я використовував ШІ”.
+footer — нижня частина сторінки з контактами, копірайтом або короткими подяками.
+Додай плавні переходи, контрастний текст, світіння на hover, зручне меню з фокус-ефектами для клавіатури, і зроби сторінку читабельною та привабливою в неоново-футуристичному стилі.
+</pre>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>Контакти: hello@future.city · Подяки: спільноті дизайнерів та інноваторів</div>
+      <div>© <span id="year"></span> Місто майбутнього</div>
+    </footer>
+  </div>
+
+  <script>
+    // Set year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    // Menu toggle for small screens
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    menuToggle.addEventListener('click', ()=>{
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!expanded));
+      if(mainNav.style.display === 'flex'){
+        mainNav.style.display = '';
+      } else {
+        mainNav.style.display = 'flex';
+        mainNav.style.flexDirection = 'column';
+        mainNav.style.position = 'absolute';
+        mainNav.style.right = '28px';
+        mainNav.style.top = '74px';
+        mainNav.style.background = 'linear-gradient(180deg, rgba(11,14,20,0.96), rgba(6,8,12,0.94))';
+        mainNav.style.padding = '12px';
+        mainNav.style.borderRadius = '12px';
+        mainNav.style.zIndex = 30;
+      }
+    });
+
+    // CTA "Дізнатися більше" -> scroll to sections
+    document.getElementById('learnBtn').addEventListener('click', ()=> {
+      document.getElementById('transport').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    // Interactive transport selector
+    const tabs = document.querySelectorAll('.segmented button');
+    const tvTitle = document.getElementById('tvTitle');
+    const tvText = document.getElementById('tvText');
+    const transportInfo = {
+      maglev: {
+        title: 'Маглев — швидкісний лінійний транспорт',
+        text: 'Лінії з магнітною левітацією забезпечують ефективні, енергоощадні з’єднання між районами. Мінімальне тертя — висока швидкість і низькі витрати на обслуговування.'
+      },
+      aerial: {
+        title: 'Аеротаксі — вертикальна мобільність',
+        text: 'Літаючі платформи для коротких міських маршрутів: вертикальний зліт і посадка (VTOL), маршрути над вулицями та інтеграція зі стейшнами на дахах.'
+      },
+      pods: {
+        title: 'Еко-поди — модульна автономія',
+        text: 'Малі автономні капсули на електричній тязі, які маршрутизуються в мережі в режимі on-demand. Вони оптимізують рух, зменшують пробки та заряджаються від локальної інфраструктури.'
+      }
+    };
+
+    tabs.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabs.forEach(b=>b.setAttribute('aria-pressed','false'));
+        btn.setAttribute('aria-pressed','true');
+        const key = btn.getAttribute('data-transport');
+        const info = transportInfo[key];
+        // smooth content swap
+        const container = document.getElementById('transportView');
+        container.style.opacity = 0;
+        setTimeout(()=> {
+          tvTitle.textContent = info.title;
+          tvText.textContent = info.text;
+          container.style.opacity = 1;
+        }, 220);
+      });
+    });
+
+    // Color swap: toggle between color palettes
+    const colorSwap = document.getElementById('colorSwap');
+    let palette = 0;
+    const palettes = [
+      {a1:'#ff4db8', a2:'#4de0ff', a3:'#8b5cff', a4:'#00d1c1'},
+      {a1:'#00d1c1', a2:'#8b5cff', a3:'#ff4db8', a4:'#4de0ff'},
+      {a1:'#ffd166', a2:'#06d6a0', a3:'#118ab2', a4:'#ef476f'}
+    ];
+    colorSwap.addEventListener('click', ()=>{
+      palette = (palette + 1) % palettes.length;
+      const p = palettes[palette];
+      document.documentElement.style.setProperty('--accent1', p.a1);
+      document.documentElement.style.setProperty('--accent2', p.a2);
+      document.documentElement.style.setProperty('--accent3', p.a3);
+      document.documentElement.style.setProperty('--accent4', p.a4);
+      // subtle feedback
+      colorSwap.animate([{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}], {duration:360, easing:'cubic-bezier(.2,.9,.3,1)'});
+    });
+
+    // keyboard navigation hint: press number keys 1-3 to switch transports
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === '1') tabs[0].click();
+      if(e.key === '2') tabs[1].click();
+      if(e.key === '3') tabs[2].click();
+    });
+
+    // small enhancement: reveal nav on resize if needed
+    window.addEventListener('resize', ()=> {
+      if(window.innerWidth > 980){
+        mainNav.style.display = 'flex';
+        mainNav.style.position = '';
+        mainNav.style.right = '';
+        mainNav.style.top = '';
+        mainNav.style.background = '';
+        mainNav.style.padding = '';
+      } else {
+        if(menuToggle.getAttribute('aria-expanded') !== 'true') {
+          mainNav.style.display = '';
+        }
+      }
+    });
+
+    // Improve focus visibility for keyboard-only users
+    (function detectKeyboard(){
+      function handleFirstTab(e){
+        if(e.key === 'Tab'){
+          document.body.classList.add('user-is-tabbing');
+          window.removeEventListener('keydown', handleFirstTab);
+        }
+      }
+      window.addEventListener('keydown', handleFirstTab);
+    })();
+
+  </script>
+</body>
+</html>
